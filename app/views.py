@@ -3,6 +3,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm, oid
 from forms import LoginForm
 from models import User, ROLE_USER, ROLE_ADMIN
+from datetime import datetime
 
 
 @app.route('/')
@@ -95,7 +96,11 @@ def logout():
 
 @app.before_request
 def before_request():
-    g.user = current_user
+    g.user = current_use
+    if g.user.is_authenticated():
+        g.user.last_seen = datetime.utcnow()
+        db.session.add(g.user)
+        db.session.commit()
 
 
 @app.route('/user/<nickname>')
