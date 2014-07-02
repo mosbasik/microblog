@@ -7,8 +7,9 @@ from models import User, ROLE_USER, ROLE_ADMIN
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
-    user = {'nickname':'Miguel'}
+    user = g.user
     posts = [ # fake array of posts
         { 
             'author': { 'nickname': 'John' }, 
@@ -45,6 +46,7 @@ def login():
                            title='Sign In',
                            form=form,
                            providers=app.config['OPENID_PROVIDERS'])
+
 
 @lm.user_loader
 def load_user(id):
