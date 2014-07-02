@@ -83,3 +83,8 @@ def after_login(resp):
 
     # redirect to the next page, or main page if no next specified
     return redirect(request.args.get('next') or url_for('index'))
+
+
+@app.before_request
+def before_request():
+    g.user = current_user
