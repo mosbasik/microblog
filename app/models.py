@@ -42,6 +42,12 @@ class User(db.Model):
         '''
         return unicode(self.id)
 
+    def __repr__(self):
+        '''
+        Returns a representation of the object.
+        '''
+        return '<User %r>' % (self.nickname)
+
     def avatar(self, size):
         '''
         Returns the URL of the user's gravatar image based on their email,
@@ -49,8 +55,24 @@ class User(db.Model):
         '''
         return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
     
-    def __repr__(self):
-        return '<User %r>' % (self.nickname)
+    @staticmethod
+    def make_unique_nickname(nickname):
+        '''
+        Ensures that the nickname of the user is unique
+        '''
+        # if the proposed nickname is already unique, return it
+        if User.query.filter_by(nickname=nickname).first() is None
+            return nickname
+
+        # otherwise, append increasingly large numbers on it until it's unique
+        version = 2
+        while True:
+            new_nickname = nickname + str(version)
+            if User.query.filter_by(nickname=nickname).first() is None:
+                break
+            version += 1
+        return new_nickname
+
 
 
 class Post(db.Model):
