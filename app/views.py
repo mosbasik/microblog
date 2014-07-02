@@ -49,3 +49,37 @@ def login():
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+@oid.after_login
+def after_login(resp):
+    # without a valid email no one can log in
+    if resp.email is None or resp.email == "":
+        flash('Invalid login.  Please try again.')
+        return redirect(url_for('login'))
+
+    # search database for this email
+    user = User.query.filter_by(email=resp.email).first()
+
+    # if we don't have this email, create a new user
+    if user is None:
+        nickname = resp.nickname
+        if nickname is None or nickname == "":
+            nickname = resp.email.split('@')[0]
+        user = User(nickname=nickname,
+                    email=resp.email,
+                    role=ROLE_USER)
+        db.session.add(user)
+        db.session.commit()
+    
+    # load the remember_value from the session
+    remember_me = False
+    if 'remember_me' in session:
+        remember_me = session['remember_me']
+        session.pop('remember_me', None)
+
+    # register that this is a valid login
+    login_user(user, remember=remember_me)
+
+    # redirect to the next page, or main page if no next specified
+    return redirect(request.args.get('next') or url_for('index'))
