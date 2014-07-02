@@ -1,4 +1,7 @@
+import os
+
 CSRF_ENABLED = True
+
 SECRET_KEY = 'you-will-never-guess'
 
 OPENID_PROVIDERS = [
@@ -8,3 +11,11 @@ OPENID_PROVIDERS = [
     { 'name': 'Flickr', 'url': 'http://www.flickr.com/<username>' },
     { 'name': 'MyOpenID', 'url': 'https://www.myopenid.com' }
 ]
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+# required by Flask-SQLAlchemy extension.  this is the path of our database file
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+
+# folder where we will store SQLAlchemy-migrate data files
+SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
