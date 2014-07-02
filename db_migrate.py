@@ -14,4 +14,4 @@ script = api.make_update_script_for_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MI
 open(migration, "wt").write(script)
 api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
 print 'New migration saved as ' + migration
-print 'Current database version: ' str(api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO))
+print 'Current database version: ' + str(api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO))
