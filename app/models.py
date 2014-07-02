@@ -61,7 +61,7 @@ class User(db.Model):
         Ensures that the nickname of the user is unique
         '''
         # if the proposed nickname is already unique, return it
-        if User.query.filter_by(nickname=nickname).first() is None
+        if User.query.filter_by(nickname=nickname).first() is None:
             return nickname
 
         # otherwise, append increasingly large numbers on it until it's unique
