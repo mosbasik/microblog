@@ -9,10 +9,12 @@
     <body>
         | <span>Microblog: <a href="{{url_for('index')}}">Home</a></span>
         {% if g.user.is_authenticated() %}
-            | <span><a href="{{url_for('logout')}}">Logout</a></span> |
+            | <span><a href="{{url_for('logout')}}">Logout</a></span> 
+            | <span><a href="{{url_for('user', nickname=g.user.nickname)}}">Your Profile</a>
         {% else %}
-            | <span><a href="{{url_for('login')}}">Login</a></span> |
+            | <span><a href="{{url_for('login')}}">Login</a></span> 
         {% endif %}
+            |
         <hr>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
