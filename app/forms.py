@@ -23,7 +23,7 @@ class EditForm(Form):
             return False
 
         # if the submitted nick is the same as the old nick, return True
-        if self.nickname.data = self.original_nickname:
+        if self.nickname.data == self.original_nickname:
             return True
 
         # if the submitted nick already exists, raise error and return False
