@@ -6,8 +6,8 @@ ROLE_ADMIN = 1
 
 
 followers = db.Table('followers',
-    db.Column('follower_id', db.Integer, db.ForeignKey('user_id')),
-    db.Column('followed_id', db.Integer, db.ForeignKey('user_id'))
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
 
 
@@ -66,7 +66,8 @@ class User(db.Model):
         Returns the URL of the user's gravatar image based on their email,
         scaled to the specified size.
         '''
-        return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+        return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() \
+            + '?d=mm&s=' + str(size)
 
     def follow(self, user):
         '''
