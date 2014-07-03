@@ -67,6 +67,30 @@ class User(db.Model):
         scaled to the specified size.
         '''
         return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+
+    def follow(self, user):
+        '''
+        Adds a new user to our following list.  Returns self on success or None
+        on fail.
+        '''
+        if not self.is_following(user):
+            self.followed.append(user)
+            return self
+
+    def unfollow(self, user):
+        '''
+        Removes a user from our following list.  Returns self on success or None
+        on fail.
+        '''
+        if self.is_following(user):
+            self.followed.remove(user)
+            return self
+
+    def is_following(self, user):
+        '''
+        Return true if the specified user is in our following list at least once.
+        '''
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
     
     @staticmethod
     def make_unique_nickname(nickname):
