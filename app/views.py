@@ -149,3 +149,63 @@ def not_found_error(error):
 def internal_error(error):
     db.session.rollback()
     return render_template('500.html'), 500
+
+
+@app.route('/follow/<nickname>')
+@login_required
+def follow(nickname):
+    user = User.query.filter_by(nickname=nickname).first()
+
+    # if the user doesn't exist
+    if user is None:
+        flash('User ' + nickname + ' not found.')
+        return redirect(url_for('index'))
+
+    # if the searched user is the logged in user
+    if user == g.user:
+        flash('You can\'t follow yourself!')
+        return redirect(url_for('index'))
+
+    # otherwise try to follow the user
+    u = g.user.follow(user)
+
+    # if it doesn't work for some reason, show an error message
+    if u is None:
+        flash('Cannot follow ' + nickname + '.')
+        return redirect(url_for('index'))
+    
+    # commit changes and take us to their page
+    db.session.add(u)
+    db.session.commit()
+    flash('You are now following ' + nickname + '!')
+    return redirect(url_for('user', nickname=nickname))
+
+
+@app.route('/unfollow/<nickname>')
+@login_required
+def unfollow(nickname):
+    user = User.query.filter_by(nickname=nickname).first()
+
+    # if the user doesn't exist
+    if user is None:
+        flash('User ' + nickname + ' not found.')
+        return redirect(url_for('index'))
+
+    # if the searched user is the logged in user
+    if user == g.user:
+        flash('You can\'t unfollow yourself!')
+        return redirect(url_for('index'))
+
+    # otherwise try to unfollow the user
+    u = g.user.unfollow(user)
+
+    # if it doesn't work for some reason, show an error message
+    if u is None:
+        flash('Cannot unfollow ' + nickname + '.')
+        return redirect(url_for('index'))
+    
+    # commit changes and take us to their page
+    db.session.add(u)
+    db.session.commit()
+    flash('You have stopped following ' + nickname + '!')
+    return redirect(url_for('user', nickname=nickname))
