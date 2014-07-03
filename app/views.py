@@ -75,6 +75,8 @@ def after_login(resp):
                     role=ROLE_USER)
         db.session.add(user)
         db.session.commit()
+        db.session.add(user.follow(user)) # make the user follow himself
+        db.session.commit()
     
     # load the remember_value from the session
     remember_me = False
