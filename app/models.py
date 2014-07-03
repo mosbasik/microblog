@@ -92,6 +92,15 @@ class User(db.Model):
         Return true if the specified user is in our following list at least once.
         '''
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        '''
+        Returns posts of all the users we are following, sorted by most recent
+        '''
+        return Post.query.join(
+            followers,                              # table to be joined to Post
+            (followers.c.followed_id==Post.user_id) # join condition
+        ).filter(followers.c.follower_id==self.id).order_by(Post.timestamp.desc())
     
     @staticmethod
     def make_unique_nickname(nickname):
