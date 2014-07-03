@@ -35,3 +35,6 @@ class EditForm(Form):
 
         # otherwise the submitted nick is fine, return True
         return True
+
+class PostForm(Form):
+    post = TextField('post', validators=[Required()])

@@ -1,10 +1,16 @@
 <table>
     <tr valign="top">
         <td>
-            <img src="{{post.author.avatar(50)}}">
+            <a href="{{url_for('user', nickname=post.author.nickname)}}">
+                <img src="{{post.author.avatar(50)}}">
+            </a>
         </td>
         <td>
-            <i>{{post.author.nickname}} says:</i>
+            <i>
+                <a href="{{url_for('user', nickname=post.author.nickname)}}">
+                    {{post.author.nickname}}
+                </a> says:
+            </i>
             <br>
             {{post.body}}
         </td>
