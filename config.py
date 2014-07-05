@@ -30,4 +30,4 @@ MAIL_PASSWORD = None
 ADMINS = ['phenryextra@zoho.com']
 
 # pagination
-POSTS_PER_PAGE = 3
+POSTS_PER_PAGE = 2
