@@ -9,7 +9,7 @@
             <p>
                 <a href="{{url_for('user', nickname=post.author.nickname)}}">
                     {{post.author.nickname}}
-                </a> said on {{post.timestamp}}:
+                </a> said {{momentjs(post.timestamp).fromNow()}}:
             </p>
             <p>
                 <strong>

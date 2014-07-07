@@ -12,7 +12,7 @@
         <h1>{{user.nickname}}</h1>
 
         {% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
-        {% if user.last_seen %}<p><em>Last seen on: {{user.last_seen}}</em></p>{% endif %}
+        {% if user.last_seen %}<p><em>Last seen: {{momentjs(user.last_seen).calendar()}}</em></p>{% endif %}
         <p>
             Followers: {{user.followers.count()-1}} | Following: {{user.followed.count()-1}} |
 
@@ -36,12 +36,10 @@
         {% else %}
             <li class="previous disabled"><a href="#">< Newer Posts</a></li>
         {% endif %}
-
         {% if posts.has_next %}
             <li class="next"><a href="{{url_for('user', nickname=user.nickname, page=posts.next_num)}}">Older Posts ></a></li>
         {% else %}
             <li class="next disabled"><a href="#">Older Posts ></a></li>
         {% endif %}
     </ul>
-
 {% endblock %}

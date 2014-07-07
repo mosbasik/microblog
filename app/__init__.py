@@ -1,6 +1,5 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.mail import Mail
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -62,7 +61,17 @@ if not app.debug:
 #-------------------------------
 # Email
 
+from flask.ext.mail import Mail
+
 mail = Mail(app)
+
+
+#-------------------------------
+# Time and Date
+
+from momentjs import momentjs
+
+app.jinja_env.globals['momentjs'] = momentjs
 
 
 #-------------------------------
