@@ -31,7 +31,7 @@ MAIL_USE_SSL = True
 # administrator list
 ADMINS = ['phenryextra@zoho.com']
 
-# pagination
+# paginationt
 POSTS_PER_PAGE = 2
 
 # name of the full text search database
