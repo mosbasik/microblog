@@ -1,18 +1,21 @@
-<table>
-    <tr valign="top">
-        <td>
+<table class="table table-hover">
+    <tr>
+        <td width="70px">
             <a href="{{url_for('user', nickname=post.author.nickname)}}">
-                <img src="{{post.author.avatar(50)}}">
+                <img src="{{post.author.avatar(70)}}">
             </a>
         </td>
         <td>
-            <i>
+            <p>
                 <a href="{{url_for('user', nickname=post.author.nickname)}}">
                     {{post.author.nickname}}
-                </a> says:
-            </i>
-            <br>
-            {{post.body}}
+                </a> said on {{post.timestamp}}:
+            </p>
+            <p>
+                <strong>
+                    {{post.body}}
+                </strong>
+            </p>
         </td>
     </tr>
 </table>
