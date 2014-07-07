@@ -1,11 +1,11 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import app, db, lm, oid
+from app import app, db, lm, oid, babel
 
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, ROLE_ADMIN, Post
 from datetime import datetime
-from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES
 from emails import follower_notification
 
 
@@ -62,7 +62,7 @@ def load_user(id):
 def after_login(resp):
     # without a valid email no one can log in
     if resp.email is None or resp.email == "":
-        flash('Invalid login.  Please try again.')
+        flash(gettext('Invalid login.  Please try again.'))
         return redirect(url_for('login'))
 
     # search database for this email
@@ -73,6 +73,7 @@ def after_login(resp):
         nickname = resp.nickname
         if nickname is None or nickname == "":
             nickname = resp.email.split('@')[0]
+        nickname = User.make_valid_nickname(nickname)
         nickname = User.make_unique_nickname(nickname)
         user = User(nickname=nickname,
                     email=resp.email,
@@ -109,6 +110,7 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
         g.search_form = SearchForm()
+    g.locale = get_locale()
 
 
 @app.route('/user/<nickname>')
@@ -230,3 +232,10 @@ def search_results(query):
     return render_template('search_results.html',
                            query=query,
                            results=results)
+
+
+@babel.localeselector
+def get_locale():
+    return "fr"
+    return request.accept_languages.best_match(LANGUAGES.keys())
+

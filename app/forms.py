@@ -1,4 +1,5 @@
 from flask.ext.wtf import Form
+from flask.ext.babel import gettext
 from wtforms import TextField, BooleanField, TextAreaField
 from wtforms.validators import Required, Length
 from app.models import User
@@ -27,10 +28,15 @@ class EditForm(Form):
         if self.nickname.data == self.original_nickname:
             return True
 
-        # if the submitted nick already exists, raise error and return False
+        # if the submitted nick is not a valid nick, raise error, return False
+        if self.nickname.data != User.make_valid_nickname(self.nickname.data):
+            self.nickname.errors.append(gettext('This nickname has invalid characters.  Please use letters, numbers, dots and underscores only.'))
+            return False
+
+        # if the submitted nick already exists, raise error, return False
         user = User.query.filter_by(nickname=self.nickname.data).first()
         if user != None:
-            self.nickname.errors.append('This nickname is already in use.  Please choose another one.')
+            self.nickname.errors.append(gettext('This nickname is already in use.  Please choose another one.'))
             return False
 
         # otherwise the submitted nick is fine, return True

@@ -1,3 +1,4 @@
+import re
 from app import db
 from app import app
 from hashlib import md5
@@ -120,6 +121,14 @@ class User(db.Model):
             if User.query.filter_by(nickname=new_nickname).first() is None:
                 return new_nickname
             version += 1
+
+    @staticmethod
+    def make_valid_nickname(nickname):
+        '''
+        Returns a nickname composed only of the characters a-z, A-Z, 0-9,
+        underscores, and periods.
+        '''
+        return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
 
 
 class Post(db.Model):

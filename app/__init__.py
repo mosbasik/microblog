@@ -12,11 +12,13 @@ db = SQLAlchemy(app)
 import os
 from flask.ext.login import LoginManager
 from flask.ext.openid import OpenID
+from flask.ext.babel import lazy_gettext
 from config import basedir
 
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
+lm.login_message = lazy_gettext('Please log in to access this page.')
 oid = OpenID(app, os.path.join(basedir, 'tmp'))
 
 
@@ -75,6 +77,15 @@ app.jinja_env.globals['momentjs'] = momentjs
 
 
 #-------------------------------
+# Internationalization and Localization
+
+from flask.ext.babel import Babel, lazy_gettext
+
+babel = Babel(app)
+
+
+#-------------------------------
+
 
 
 from app import views, models

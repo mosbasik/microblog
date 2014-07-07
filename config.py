@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 from sensitive import MAIL_USERNAME
 from sensitive import MAIL_PASSWORD
@@ -38,3 +40,8 @@ POSTS_PER_PAGE = 2
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
 
 MAX_SEARCH_RESULTS = 50
+
+LANGUAGES = {
+    'en':'English',
+    'fr':'French'
+}

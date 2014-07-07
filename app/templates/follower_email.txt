@@ -1,9 +1,8 @@
-Dear {{user.nickname}},
+{{_('Dear %(nickname)s', % nickname=user.nickname)}}
 
-{{follower.nickname}} is now your follower.  Click on the following link to visit {{follower.nickname}}'s profile page:
+{{_('%(nickname)s is now your follower.  Click on the following link to visit %(nickname)s\'s profile page:', nickname=follower.nickname)}}
 
 {{url_for('user', nickname=follower.nickname, _external=True)}}
 
-Regards,
-
-The microblog admin
+{{_('Regards,')}}
+{{_('The microblog admin')}}
