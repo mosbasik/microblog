@@ -32,7 +32,7 @@ MAIL_USE_SSL = True
 ADMINS = ['phenryextra@zoho.com']
 
 # paginationt
-POSTS_PER_PAGE = 10
+POSTS_PER_PAGE = 2
 
 # name of the full text search database
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
