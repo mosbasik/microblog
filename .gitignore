@@ -1,4 +1,3 @@
 *.pyc
 sensitive.py
-flask/*
 tmp/*
